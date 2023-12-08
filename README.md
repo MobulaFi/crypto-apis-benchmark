@@ -29,7 +29,7 @@ This tool is designed to benchmark and test the performance of various popular c
 ### Caching Test
 
 - **Command**: `yarn dev caching-test`
-- **Description**: Tests the caching behavior of the APIs over a short period.
+- **Description**: Tests the caching behavior of the APIs over a short period. Depending on your needs, an uncached solution will provide real-time data with a marginally longer response time.
 - **Expected Output**: A sequence of data points showing time and Bitcoin/Ethereum price.
 
   ![Caching Test Output](https://i.imgur.com/Yg6ilyl.png)
@@ -52,3 +52,7 @@ This tool is designed to benchmark and test the performance of various popular c
 1. Clone the repository from GitHub.
 2. Install dependencies using `yarn install`.
 3. Run the desired test command.
+
+---
+
+Created by Mobula Labs. For more information or additional API comparisons, contact us at [contact@mobulalabs.org](mailto:contact@mobulalabs.org).
