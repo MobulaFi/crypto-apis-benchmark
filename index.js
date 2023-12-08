@@ -339,6 +339,7 @@ async function testMobulaCache() {
     progressBar.stop(); // Stop the progress bar once the test is completed
     // Display the result in a table format
     displayResult("Mobula", data, false);
+    console.log("\n");
   }, 30000);
 }
 
@@ -408,25 +409,36 @@ async function testCoinGeckoCache() {
 
   const intervalId = setInterval(async () => {
     try {
-      const response = await axios.get(
-        "https://api.coingecko.com/api/v3/coins/bitcoin"
-      );
-      const btcPrice = response.data.market_data.current_price.usd;
-      data.push({
-        timestamp: new Date().toLocaleTimeString(),
-        btcPrice,
-      });
+      const url =
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin&x_cg_demo_api_key=CG-487diuceKHutmnDaBNHTfQ3u";
+      const response = await axios.get(url);
+
+      if (response.data && response.data.length > 0) {
+        const btcData = response.data[0];
+        const btcPrice = btcData.current_price;
+        data.push({
+          timestamp: new Date().toLocaleTimeString(),
+          btcPrice,
+        });
+      } else {
+        console.error(
+          "Received empty response or data array is empty from CoinGecko"
+        );
+      }
     } catch (error) {
-      console.error("Error fetching CoinGecko data:", error.message);
+      console.error(`Error fetching CoinGecko data: ${error.message}`);
     }
-  }, 5000);
+  }, 4000);
 
   setTimeout(() => {
     clearInterval(intervalId);
-    // Display the result in a table format
-    displayResult("CoinGecko", data, true);
+    if (data.length > 0) {
+      displayResult("CoinGecko", data, true);
+    } else {
+      console.log(chalk.red("No data retrieved from CoinGecko API"));
+    }
     console.log("\n");
-  }, 30000);
+  }, 40000);
 }
 
 // Function to test caching for CoinMarketCap
@@ -453,7 +465,7 @@ async function testCoinMarketCapCache() {
     } catch (error) {
       console.error("Error fetching CoinMarketCap data:", error.message);
     }
-  }, 5000);
+  }, 4000);
 
   setTimeout(() => {
     clearInterval(intervalId);
